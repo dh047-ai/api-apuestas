@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apuestas FPC 🇨🇴 - La Pasión del Fútbol</title>
+    <style>
+        :root {
+            --bg-principal: #0b1120; 
+            --bg-tarjetas: #1e293b; 
+            --verde-cancha: #10b981; 
+            --verde-hover: #059669;
+            --amarillo-oro: #fbbf24; 
+            --texto-claro: #f8fafc; 
+            --texto-secundario: #94a3b8; 
+            --borde-tarjeta: #334155;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg-principal); 
+            background-image: radial-gradient(circle at top right, #1e293b 0%, transparent 40%); 
+            color: var(--texto-claro); 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        header { 
+            background: linear-gradient(90deg, #0b1120 0%, #10b981 100%); 
+            color: white; 
+            padding: 15px 30px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-weight: 800; 
+            font-size: 1.3em; 
+            border-bottom: 3px solid var(--amarillo-oro); 
+        }
+
+        .container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            padding: 20px; 
+            gap: 25px; 
+            justify-content: center; 
+        }
+        
+        .sidebar { 
+            background: var(--bg-tarjetas); 
+            padding: 25px; 
+            border-radius: 12px; 
+            width: 320px; 
+            border: 1px solid var(--borde-tarjeta); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+            align-self: flex-start; 
+        }
+
+        .input-group { 
+            margin-bottom: 15px; 
+            position: relative; 
+        }
+
+        .input-group label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-size: 0.9em; 
+            color: var(--texto-secundario); 
+            font-weight: 600;
+        }
+
+        .input-group input, .input-group select { 
+            width: 100%; 
+            padding: 12px; 
+            background: var(--bg-principal); 
+            border: 1px solid var(--borde-tarjeta); 
+            color: white; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            outline: none; 
+        }
+
+        .input-group input:focus, .input-group select:focus { 
+            border-color: var(--verde-cancha); 
+        }
+
+        .toggle-password { 
+            position: absolute; 
+            right: 12px; 
+            top: 32px; 
+            cursor: pointer; 
+            opacity: 0.7; 
+        }
+        
+        .btn { 
+            width: 100%; 
+            padding: 14px; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            font-size: 1em; 
+            transition: 0.3s; 
+        }
+
+        .btn-ingresar { background-color: var(--verde-cancha); color: white; }
+        .btn-ingresar:hover { background-color: var(--verde-hover); }
+        
+        .btn-pagar { background-color: #3b82f6; color: white; border: 2px solid #2563eb; }
+        .btn-pagar:hover { background-color: #2563eb; }
+
+        .btn-drive { background-color: #475569; color: white; border: 1px solid #64748b; }
+        .btn-drive:hover { background-color: #334155; }
+
+        .btn-link { 
+            background: none; 
+            border: none; 
+            color: var(--amarillo-oro); 
+            cursor: pointer; 
+            margin-top: 15px; 
+            text-decoration: underline; 
+            width: 100%; 
+            font-weight: 600; 
+        }
+        
+        .matches { flex: 1; max-width: 900px; }
+        
+        .match-card { 
+            background: var(--bg-tarjetas); 
+            margin-bottom: 20px; 
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 1px solid var(--borde-tarjeta); 
+            border-left: 6px solid var(--verde-cancha); 
+        }
+
+        .league-title { 
+            color: var(--amarillo-oro); 
+            font-size: 0.85em; 
+            font-weight: bold; 
+            margin-bottom: 10px; 
+            text-transform: uppercase; 
+        }
+
+        .teams { 
+            font-size: 1.4em; 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .teams span { flex: 1; text-align: center; }
+        .teams span:nth-child(2) { flex: 0.2; color: var(--texto-secundario); font-size: 0.8em; }
+
+        .market-group { 
+            margin-top: 15px; 
+            background: rgba(0,0,0,0.2); 
+            padding: 10px; 
+            border-radius: 8px; 
+        }
+
+        .market-title { 
+            font-size: 0.9em; 
+            color: var(--texto-secundario); 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+        }
+
+        .odds { display: flex; gap: 8px; }
+
+        .odd-btn { 
+            flex: 1; 
+            background: var(--bg-principal); 
+            color: var(--texto-claro); 
+            border: 1px solid var(--borde-tarjeta); 
+            padding: 12px 5px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            transition: all 0.2s; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        .odd-btn span.cuota { color: var(--amarillo-oro); font-size: 1.1em; margin-top: 4px; }
+        .odd-btn:hover { background: var(--verde-cancha); color: white; }
+        .odd-btn:hover span.cuota { color: white; }
+        
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>🏟️ BetColombia - FPC</div>
+        <div id="headerUserInfo">👤 Visitante | Saldo: $0.00 COP</div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar (Panel de Autenticación y Cajero) -->
+        <div class="sidebar">
+            
+            <!-- Panel de Login -->
+            <div id="loginPanel">
+                <h2 style="margin-top:0; color: var(--verde-cancha);">Inicia tu jugada</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="loginPassword" required>
+                        <span class="toggle-password" onclick="togglePassword('loginPassword')">👁️</span>
+                    </div>
+                    <button type="submit" class="btn btn-ingresar">Ingresar</button>
+                    <button type="button" class="btn-link" onclick="togglePanels('registerPanel')">Regístrate y gana</button>
+                </form>
+            </div>
+
+            <!-- Panel de Registro -->
+            <div id="registerPanel" class="hidden">
+                <h2 style="margin-top:0; color: var(--amarillo-oro);">Únete al equipo</h2>
+                <form id="registerForm">
+                    <div class="input-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" id="regNombre" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" id="regEmail" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="regPassword" required>
+                        <span class="toggle-password" onclick="togglePassword('regPassword')">👁️</span>
+                    </div>
+                    <button type="submit" class="btn btn-ingresar">Crear cuenta</button>
+                    <button type="button" class="btn-link" onclick="togglePanels('loginPanel')">Volver al inicio</button>
+                </form>
+            </div>
+
+            <!-- Panel de Usuario / Cajero -->
+            <div id="userPanel" class="hidden">
+                <h2 style="margin-top:0; color: var(--verde-cancha);">Cajero 💰</h2>
+                <p style="color: var(--texto-secundario); font-size: 0.9em;">Recarga tu cuenta de forma segura para empezar a jugar.</p>
+                
+                <div class="input-group">
+                    <label>Monto a recargar (COP):</label>
+                    <input type="number" id="montoRecarga" placeholder="Ej: 50000" min="10000" style="font-size: 1.2em; font-weight: bold; text-align: center; color: var(--amarillo-oro);">
+                </div>
+
+                <div class="input-group">
+                    <label>Método de Pago:</label>
+                    <select id="metodoPagoSeleccionado">
+                        <option value="Nequi">📱 Nequi</option>
+                        <option value="PSE">🏦 PSE (Cuenta de Ahorros/Corriente)</option>
+                        <option value="Daviplata">📱 DaviPlata</option>
+                        <option value="Tarjeta">💳 Tarjeta de Crédito / Débito</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-pagar" onclick="procesarPago()">
+                    🔒 Procesar Pago Seguro
+                </button>
+
+                <!-- Verificación de Cédula conectada a Google Drive -->
+                <div class="input-group" style="margin-top: 15px;">
+                    <label>Subir Cédula (Identidad):</label>
+                    <input type="file" id="inputCedula" accept="image/*" style="padding: 8px; background: var(--bg-principal); font-size: 0.85em;">
+                </div>
+                
+                <button class="btn btn-drive" onclick="subirCedulaDrive()">
+                    📸 Enviar Cédula a Google Drive
+                </button>
+
+                <hr style="border: 0; height: 1px; background: var(--borde-tarjeta); margin: 20px 0;">
+                <button class="btn-link" style="color: #ef4444; margin-top: 0;" onclick="cerrarSesion()">Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <!-- Partidos / Mercados -->
+        <div class="matches">
+            <h2 style="margin-top:0; border-bottom: 2px solid var(--borde-tarjeta); padding-bottom: 10px;">🔥 Destacados de la Fecha - Liga BetPlay</h2>
+            
+            <div class="match-card">
+                <div class="league-title">Primera A • Clásico Vallecaucano</div>
+                <div class="teams"><span>América de Cali</span><span>vs</span><span>Deportivo Cali</span></div>
+                
+                <div class="market-group">
+                    <div class="market-title">1X2 (Resultado Final)</div>
+                    <div class="odds">
+                        <button class="odd-btn" onclick="apostar('América de Cali', 2.10)">Local <span class="cuota">2.10</span></button>
+                        <button class="odd-btn" onclick="apostar('Empate', 3.00)">Empate <span class="cuota">3.00</span></button>
+                        <button class="odd-btn" onclick="apostar('Deportivo Cali', 3.40)">Visitante <span class="cuota">3.40</span></button>
+                    </div>
+                </div>
+
+                <div class="market-group">
+                    <div class="market-title">Total Goles (Más/Menos 2.5)</div>
+                    <div class="odds">
+                        <button class="odd-btn" onclick="apostar('América vs Cali (+2.5 Goles)', 1.85)">Más de 2.5 <span class="cuota">1.85</span></button>
+                        <button class="odd-btn" onclick="apostar('América vs Cali (-2.5 Goles)', 1.95)">Menos de 2.5 <span class="cuota">1.95</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="match-card">
+                <div class="league-title">Primera A • Clásico Nacional</div>
+                <div class="teams"><span>Atl. Nacional</span><span>vs</span><span>Millonarios FC</span></div>
+                
+                <div class="market-group">
+                    <div class="market-title">1X2 (Resultado Final)</div>
+                    <div class="odds">
+                        <button class="odd-btn" onclick="apostar('Nacional', 2.40)">Local <span class="cuota">2.40</span></button>
+                        <button class="odd-btn" onclick="apostar('Empate', 2.80)">Empate <span class="cuota">2.80</span></button>
+                        <button class="odd-btn" onclick="apostar('Millonarios', 2.90)">Visitante <span class="cuota">2.90</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let usuarioActual = null;
+
+        function togglePanels(panelId) {
+            document.getElementById('loginPanel').classList.add('hidden');
+            document.getElementById('registerPanel').classList.add('hidden');
+            document.getElementById('userPanel').classList.add('hidden');
+            document.getElementById(panelId).classList.remove('hidden');
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        // Registro de Usuarios
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('regNombre').value;
+            const correo = document.getElementById('regEmail').value;
+            const contrasena = document.getElementById('regPassword').value;
+
+            try {
+                const res = await fetch('http://localhost:3000/api/auth/registro', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre, correo, contrasena })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert("⚽ ¡Bienvenido! Registro exitoso. Inicia sesión ahora.");
+                    togglePanels('loginPanel');
+                } else {
+                    alert("Error: " + (data.error || data.mensaje));
+                }
+            } catch (err) { alert("Error de conexión al servidor."); }
+        });
+
+        // Inicio de Sesión
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const correo = document.getElementById('loginEmail').value;
+            const contrasena = document.getElementById('loginPassword').value;
+
+            try {
+                const res = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ correo, contrasena })
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    usuarioActual = { id: data.usuario.id, nombre: data.usuario.nombre, saldo: data.usuario.saldo || 0 };
+                    actualizarInterfazUsuario();
+                } else {
+                    alert("Error: " + (data.error || data.mensaje));
+                }
+            } catch (err) { alert("Error de conexión al servidor."); }
+        });
+
+        function actualizarInterfazUsuario() {
+            togglePanels('userPanel');
+            document.getElementById('headerUserInfo').innerText = `👤 ${usuarioActual.nombre} | Saldo: $${usuarioActual.saldo} COP`;
+        }
+
+        // Procesar Pagos (Pasarela con Firebase y PostgreSQL)
+        async function procesarPago() {
+            if (!usuarioActual) return alert("Debes iniciar sesión primero.");
+            
+            const monto = parseFloat(document.getElementById('montoRecarga').value);
+            const metodo = document.getElementById('metodoPagoSeleccionado').value;
+            
+            if (!monto || monto < 10000) return alert("Ingresa un monto válido (Mínimo $10.000).");
+
+            alert(`Conectando con la pasarela de ${metodo}...\nPor favor, aprueba la transacción desde tu app/banco.`);
+
+            try {
+                const res = await fetch('http://localhost:3000/api/pagos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario_id: usuarioActual.id, monto, metodo_pago: metodo })
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    alert(`✅ Pago con ${metodo} aprobado exitosamente.\nID de Transacción: ${data.id_transaccion_firebase}`);
+                    usuarioActual.saldo = data.nuevo_saldo;
+                    actualizarInterfazUsuario();
+                } else {
+                    alert("Error en el pago: " + (data.error || ""));
+                }
+            } catch (err) { alert("Error de conexión con la pasarela."); }
+        }
+
+        // Subir Cédula a Google Drive
+        async function subirCedulaDrive() {
+            if (!usuarioActual) return alert("Debes iniciar sesión primero.");
+            const inputFiles = document.getElementById('inputCedula').files;
+            
+            if (inputFiles.length === 0) {
+                return alert("⚠️ Por favor selecciona una foto de tu cédula primero.");
+            }
+
+            const formData = new FormData();
+            formData.append('cedula', inputFiles[0]);
+            formData.append('usuario_id', usuarioActual.id);
+            formData.append('nombre', usuarioActual.nombre);
+
+            alert("Subiendo documento a Google Drive de forma segura...");
+
+            try {
+                const res = await fetch('http://localhost:3000/api/verificacion/verificar-cedula', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert("✅ ¡Cédula verificada y guardada en Google Drive con éxito!");
+                } else {
+                    alert("Error: " + (data.error || "No se pudo subir"));
+                }
+            } catch (err) {
+                alert("Error de conexión con el servidor.");
+            }
+        }
+
+        // Sistema de Apuestas (Corregido el error de sintaxis en el cálculo)
+        function apostar(seleccion, cuota) {
+            if (!usuarioActual) return alert("⚠️ Inicia sesión para apostar.");
+            const montoApostar = prompt(`Mercado: ${seleccion}\nCuota: ${cuota}\nTu saldo: $${usuarioActual.saldo}\n\nIngresa el monto a apostar (COP):`);
+            
+            if (montoApostar) {
+                const monto = parseFloat(montoApostar);
+                if (monto > usuarioActual.saldo) {
+                    alert("❌ Saldo insuficiente. Recarga tu cuenta para apostar.");
+                } else if (monto > 0) {
+                    usuarioActual.saldo -= monto;
+                    actualizarInterfazUsuario();
+                    alert(`✅ ¡Ticket Generado!\n\nSelección: ${seleccion}\nApostado: $${monto}\nGanancia Potencial: $${(monto * cuota).toFixed(2)}`);
+                }
+            }
+        }
+
+        function cerrarSesion() {
+            usuarioActual = null;
+            localStorage.removeItem('token');
+            document.getElementById('headerUserInfo').innerText = "👤 Visitante | Saldo: $0.00 COP";
+            togglePanels('loginPanel');
+        }
+    </script>
+</body>
+</html>
